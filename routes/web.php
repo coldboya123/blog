@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +18,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//USER
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::get('login', [AuthController::class, 'showLoginForm']);
-Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('register', [AuthController::class, 'showRegisterForm']);
-Route::post('register', [AuthController::class, 'register'])->name('register');
-Route::get('logout', [AuthController::class, 'logout']);
+Route::controller(AuthController::class)->middleware('user.roles')->group(function () {
+    Route::get('login', 'showLoginForm');
+    Route::post('login', 'login')->name('login');
+    Route::get('register', 'showRegisterForm');
+    Route::post('register', 'register')->name('register');
+    Route::get('logout', 'logout');
+});
+
+Route::controller(UserController::class)->middleware('user.roles')->group(function () {
+    Route::get('user', 'showUserPage');
+});
+
+Route::controller(PostController::class)->middleware('user.roles')->group(function () {
+    Route::get('post', 'showPostPage');
+    Route::post('post', 'postBlog')->name('post');
+    Route::get('delete-blog', 'deleteBlog')->name('delete-blog');
+    Route::get('blog', 'blogDetail')->name('blog');
+});
+
+//==============================
+//ADMIN
+Route::controller(AdminController::class)->middleware('user.roles')->group(function () {
+    Route::get('admin', 'showAdmin');
+});

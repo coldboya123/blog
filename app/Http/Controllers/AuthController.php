@@ -46,7 +46,12 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
             // Authentication passed...
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            $role = Auth::user()->role;
+            if ($role == 1) { // is admin
+                return redirect()->intended('/admin');
+            } else if ($role == 2) { // is user
+                return redirect()->intended('/');
+            }
         }
 
         return redirect()->back()->withErrors([
@@ -92,14 +97,15 @@ class AuthController extends Controller
         }
         return redirect('login');
     }
-    
+
     /**
      * logOut
      * logged out user, redirect back to home page
      *
      * @return void
      */
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect('/');
     }
