@@ -17,8 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->string('title');
             $table->text('content');
-            $table->timestamp('created_at')->useCurrentOnUpdate()->useCurrent();
-            $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
+            $table->timestamps();
             $table->integer('created_user');
             $table->integer('updated_user')->nullable()->default(0);
         });
