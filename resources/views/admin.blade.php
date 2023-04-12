@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-
-            
-    </head>
-    <body class="antialiased">
-        ADMIN NE
-    </body>
-</html>
+@include('header')
+<div>
+    <a class="text-primary" href="{{ url('modify-user') }}">Add new user</a>
+    <table>
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created at</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->name  }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->role }}</td>
+                <td>{{ $user->created_at }}</td>
+                <td><a class="text-warning" href="{{ route('modify-user', ['id' => $user->id]) }}">update</a>
+                    <a class="text-danger ml-3" href="{{ route('delete-user', ['id' => $user->id]) }}">delete</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@include('footer')

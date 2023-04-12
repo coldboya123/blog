@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Models\Blog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 //USER
 Route::get('/', function () {
-    return view('home');
+    $listBlog = Blog::getListBlog();
+    return view('home', ['blogs' => $listBlog]);
 });
 
-Route::controller(AuthController::class)->middleware('user.roles')->group(function () {
+Route::controller(AuthController::class)->group(function () {
     Route::get('login', 'showLoginForm');
     Route::post('login', 'login')->name('login');
     Route::get('register', 'showRegisterForm');
@@ -35,15 +37,20 @@ Route::controller(UserController::class)->middleware('user.roles')->group(functi
     Route::get('user', 'showUserPage');
 });
 
-Route::controller(PostController::class)->middleware('user.roles')->group(function () {
-    Route::get('post', 'showPostPage');
-    Route::post('post', 'postBlog')->name('post');
+Route::controller(PostController::class)->group(function () {
+    Route::get('post', 'showPostPage')->name('post');
+    Route::post('post', 'postBlog');
     Route::get('delete-blog', 'deleteBlog')->name('delete-blog');
     Route::get('blog', 'blogDetail')->name('blog');
+    Route::post('add-comment', 'addComment')->name('add-comment');
 });
 
 //==============================
 //ADMIN
-Route::controller(AdminController::class)->middleware('user.roles')->group(function () {
+Route::controller(AdminController::class)->middleware('admin.roles')->group(function () {
     Route::get('admin', 'showAdmin');
+    Route::get('list-user', 'getListUser');
+    Route::get('delete-user', 'deleteUser')->name('delete-user');
+    Route::get('modify-user', 'showUserForm');
+    Route::post('modify-user', 'modifyUser')->name('modify-user');
 });

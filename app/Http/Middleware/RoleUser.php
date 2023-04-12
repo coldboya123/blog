@@ -15,7 +15,7 @@ class RoleUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check() && auth()->user()->role == 2){
+        if(auth()->user()->role == 2){
             return $next($request);
         }
         return redirect('/admin');

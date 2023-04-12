@@ -22,16 +22,21 @@ class Blog extends Model
      *
      * @return void
      */
-    public static function getListBlog()
+    public static function getListBlog($userid = 0)
     {
-        return self::select(
-            'id',
+        $data = self::select(
+            'blogs.id',
             'title',
             'content',
-            'created_at',
-            'updated_at'
-        )
-            ->where('created_user', Auth::id())->get();
+            'blogs.created_user',
+            'blogs.created_at',
+            'blogs.updated_at',
+            'u.name as author'
+        )->join('users as u', 'u.id', 'blogs.created_user');
+        if($userid){
+            $data->where('blogs.created_user', Auth::id())->get();
+        }
+        return $data->get();
     }
 
     /**
@@ -64,10 +69,10 @@ class Blog extends Model
             ->update([
                 'title' => $data['title'],
                 'content' => $data['content'],
-                'created_user' => Auth::id()
+                'updated_user' => Auth::id()
             ]);
     }
-    
+
     /**
      * deleteBlog
      * delete blog by id
@@ -75,7 +80,8 @@ class Blog extends Model
      * @param  mixed $id
      * @return void
      */
-    public static function deleteBlog($id){
+    public static function deleteBlog($id)
+    {
         self::where('id', $id)->delete();
     }
 
@@ -84,16 +90,19 @@ class Blog extends Model
      * get blog info by blogid
      *
      * @param  int $id
-     * @return void
+     * @return object
      */
     public static function getBlogInfo($id)
     {
         return self::select(
-            'id',
+            'blogs.id',
             'title',
             'content',
-            'created_at',
-            'updated_at'
-        )->where('id', $id)->first();
+            'blogs.created_at',
+            'blogs.updated_at',
+            'blogs.created_user',
+            'u.name as author'
+        )->join('users as u', 'u.id', 'blogs.created_user')
+        ->where('blogs.id', $id)->first();
     }
 }

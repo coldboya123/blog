@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {    
@@ -19,7 +20,7 @@ class UserController extends Controller
      * @return void
      */
     public function showUserPage(){
-        $listBlog = Blog::getListBlog();
+        $listBlog = Blog::getListBlog(Auth::id());
         return view('user', ['blogs' => $listBlog]);
     }
 }
