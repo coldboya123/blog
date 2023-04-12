@@ -33,7 +33,7 @@
    `php artisan migrate`
 6. Run terminal to seed data:
 
-   `php artisan seed`
+   `php artisan db:seed`
 7. Start server run:
 
    `php artisan serve`
