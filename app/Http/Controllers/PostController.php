@@ -26,7 +26,6 @@ class PostController extends Controller
         if ($request->has('id')) {
             $blog = Blog::getBlogInfo($request->id);
             if ($blog->created_user != Auth::id() and Auth::user()->role != 1) {
-                print_r($blog);die;
                 // can't update orther user's post if user is not admin
                 return redirect()->back();
             }
@@ -76,7 +75,6 @@ class PostController extends Controller
     public function deleteBlog(Request $request)
     {
         if ($request->created_user != Auth::id() and Auth::user()->role != 1) {
-            print_r($request->created_user);die;
             // can't update orther user's post if user is not admin
             return redirect()->back()->withErrors([
                 'message' => "Can not delete other user's post.",
