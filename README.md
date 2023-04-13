@@ -7,13 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-
 1. Clone project run terminal:
 
-    `git clone https://github.com/coldboya123/blog.git`
+   `git clone https://github.com/coldboya123/blog.git`
 
-    then run:`composer install`
-
+   then run:`composer install`
 2. Run terminal create file .env:
 
    `cp .env.example .env`
@@ -34,6 +32,12 @@
 6. Run terminal to seed data:
 
    `php artisan db:seed`
+
+   Data include:
+
+   - admin account: admin@gmail.com - pwd: 123123
+   - user account: user1@gmail.com - pwd: 123123
+   - 3 posts of user1
 7. Start server run:
 
    `php artisan serve`
