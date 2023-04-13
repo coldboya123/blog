@@ -49,7 +49,7 @@ class PostController extends Controller
         ]);
         if ($data) {
             if ($request->has('id') and $request->id) {
-                if ($request->created_user != Auth::id() and Auth::user()->role != 1) {
+                if (Blog::find($request->id)->created_user != Auth::id() and Auth::user()->role != 1) {
                     // can't update orther user's post if user is not admin
                     return redirect()->back()->withErrors([
                         'message' => "Can not modify other user's post.",

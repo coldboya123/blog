@@ -14,10 +14,12 @@
                 <p>Author: {{ $blog->author }}</p>
             </div>
         </a>
-        @if(auth()->user()->role == 1)
-        <a class="text-warning" href="{{ url(route('post', ['id' => $blog->id, 'created_user' => $blog->created_user])) }}">update</a>
-        <a class="text-danger" href="{{ url(route('delete-blog', ['id' => $blog->id, 'created_user' => $blog->created_user])) }}">update</a>
-        @endif
+        @auth
+            @if(auth()->user()->role == 1)
+            <a class="text-warning" href="{{ url(route('post', ['id' => $blog->id, 'created_user' => $blog->created_user])) }}">update</a>
+            <a class="text-danger" href="{{ url(route('delete-blog', ['id' => $blog->id, 'created_user' => $blog->created_user])) }}">update</a>
+            @endif
+        @endauth
     </div>
     @endforeach
 </div>
