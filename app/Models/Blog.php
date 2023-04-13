@@ -15,6 +15,26 @@ class Blog extends Model
         'created_user',
         'updated_user'
     ];
+    
+    /**
+     * users
+     * 1 post belongs to 1 user
+     *
+     * @return void
+     */
+    public function users(){
+        return $this->belongsTo(User::class, 'created_user');
+    }
+    
+    /**
+     * comments
+     * 1 post has many comments
+     *
+     * @return void
+     */
+    public function comments(){
+        return $this->hasMany(Comment::class, 'created_user');
+    }
 
     /**
      * getListBlock

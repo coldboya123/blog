@@ -15,6 +15,24 @@ class Comment extends Model
         'created_user',
         'updated_user'
     ];
+    
+    /**
+     * users
+     *  1 comment belongs to 1 user
+     * @return void
+     */
+    public function users(){
+        return $this->belongsTo(User::class, 'created_user');
+    }
+    
+    /**
+     * blogs
+     *  1 comment belongs to 1 blog
+     * @return void
+     */
+    public function blogs(){
+        return $this->belongsTo(Blog::class, 'created_user');
+    }
 
     /**
      * addComment
